@@ -9,7 +9,7 @@ __python_version__ = '.'.join([str(i) for i in sys.version_info[:3]])
 _DEBUG = False
 
 import os
-import StringIO
+import io
 import string
 import random
 import hashlib
@@ -331,7 +331,7 @@ class ClientObject(object):
 
             try:
                 data = json.dumps(request, cls=JSONEncoder)
-            except (TypeError, ValueError), e:
+            except (TypeError, ValueError) as e:
                 raise SerializerError(str(e))
 
             c.setopt(pycurl.POSTFIELDS, data)
@@ -339,12 +339,12 @@ class ClientObject(object):
             if self._client._proxy:
                 c.setopt(pycurl.PROXY, self._client._proxy)
 
-            response = StringIO.StringIO()
+            response = io.StringIO()
             c.setopt(pycurl.WRITEFUNCTION, response.write)
 
             try:
                 c.perform()
-            except pycurl.error, e:
+            except pycurl.error as e:
                 raise TransportException(str(e))
             finally:
                 c.close()
@@ -358,7 +358,7 @@ class ClientObject(object):
                     for line in  json.dumps(msg, indent=2).split('\n'):
                         print('       %s' % line)
                     print('')
-            except (TypeError, ValueError), e:
+            except (TypeError, ValueError) as e:
                 raise SerializerError(str(e))
             error = msg.get('error', None)
             if error:
@@ -397,7 +397,7 @@ class FileObject(ClientObject):
 
         try:
             c.perform()
-        except pycurl.error, e:
+        except pycurl.error as e:
             raise TransportException(str(e))
         c.close()
 
