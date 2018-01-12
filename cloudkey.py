@@ -4,7 +4,7 @@ import sys
 
 API_ENDPOINT = '/api'
 
-__version__ = "1.2.6"
+__version__ = "1.2.8"
 __python_version__ = '.'.join([str(i) for i in sys.version_info[:3]])
 _DEBUG = False
 
@@ -321,13 +321,13 @@ class ClientObject(object):
             c.setopt(pycurl.HTTPHEADER, ["Content-Type: application/json", 'Expect:'])
 
             if _DEBUG:
-                print '   Example request::'
-                print ''
-                print '   Normalization or request: ' + normalize(request)
-                print ''
+                print('   Example request::')
+                print('')
+                print('   Normalization or request: ' + normalize(request))
+                print('')
                 for line in  json.dumps(request, cls=JSONEncoder, indent=2).split('\n'):
-                    print '       %s' % line
-                print ''
+                    print('       %s' % line)
+                print('')
 
             try:
                 data = json.dumps(request, cls=JSONEncoder)
@@ -353,11 +353,11 @@ class ClientObject(object):
                 #msg = json.loads(response.getvalue(), object_hook=lambda x: dotdict(x))
                 msg = json.loads(response.getvalue())
                 if _DEBUG:
-                    print '   Example response::'
-                    print ''
+                    print('   Example response::')
+                    print('')
                     for line in  json.dumps(msg, indent=2).split('\n'):
-                        print '       %s' % line
-                    print ''
+                        print('       %s' % line)
+                    print('')
             except (TypeError, ValueError), e:
                 raise SerializerError(str(e))
             error = msg.get('error', None)
